@@ -1,0 +1,23 @@
+scores a cell based on expression of features associated with a biological process such as cell-cycle - adapted from Seurat package 
+example with s.phase and g2.phase genelist from Tyrosh et al., 2015
+library(Seurat)
+
+first_letter_uper <- function(x) {
+  y <- paste(toupper(str_split(x, pattern = "")[[1]][1]), paste(str_split(x, pattern = "")[[1]][-1], collapse = ""), sep = "")
+  return(y)
+}
+
+s.genes <- cc.genes.updated.2019$s.genes
+s.genes <- as.character(sapply(tolower(s.genes), function(x) first_letter_uper(x)))
+
+g2m.genes <- cc.genes.updated.2019$g2m.genes
+g2m.genes <- as.character(sapply(tolower(g2m.genes), function(x) first_letter_uper(x)))
+
+features <- list(s.phase=s.genes, g2m.phase=g2m.genes)
+
+features2 <- list(cell_cycle=c(s.genes, g2m.genes))
+
+cycl_non_cycl <- Scoring(sc, features2, st = "cycling", nd="noncycling")
+cycle_phases <- Scoring(sc, features, st="S", nd="G2M", null = "G1")
+
+get_cluster_composition(sc, cluster_size = 20, final = T, leg = F, order = c(1, 5,11, 9, 8, 4, 10, 12, 3, 6, 7, 2), symbols = cycle_phases$Phase, norm = F)
