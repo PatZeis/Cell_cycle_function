@@ -1,4 +1,4 @@
-scores a cell based on expression of features associated with a biological process such as cell-cycle - adapted from Seurat package 
+scores a cell, based on expression of features associated with a biological process such as cell-cycle - adapted from Seurat package 
 example with s.phase and g2.phase genelist from Tyrosh et al., 2015
 library(Seurat)
 
